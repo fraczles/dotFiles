@@ -23,11 +23,57 @@ set termguicolors
 set relativenumber
 set number
 
+
+" ============================================================================
+" Pluggins
+" ============================================================================
+call plug#begin('~/.local/share/nvim/plugged')
+
+  " Misc
+  Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim'
+  Plug 'junegunn/goyo.vim'
+  Plug 'junegunn/vim-emoji'
+  Plug 'vim-airline/vim-airline'
+  Plug 'vim-airline/vim-airline-themes'
+
+  " Editor
+  Plug 'tpope/vim-commentary'
+  Plug 'tpope/vim-repeat'
+  Plug 'tpope/vim-surround'
+
+  " Syntax
+  Plug 'ekalinin/Dockerfile.vim'
+  Plug 'pangloss/vim-javascript'
+  Plug 'w0rp/ale'
+
+call plug#end()
+
+" ============================================================================
+" Plugin settings
+" ============================================================================
+" Airline
+let g:airline#extensions#tabline#enabled = 1
+let g:airline_powerline_fonts = 1
+let g:airline_theme='bubblegum'
+
+" Ale
+let g:ale_statusline_format = ['⨉ %d', '⚠ %d', '⬥ ok']
+let g:ale_sign_error = '⨉'
+let g:ale_sign_warning = '⚠'
+let g:ale_echo_msg_format = '%linter% ❯ %s'
+let g:ale_linters = {
+  \ 'javascript': ['eslint', 'jshint', 'flow'],
+  \ 'json': ['jsonlint'],
+  \ 'python': ['flake8'],
+  \ 'sh': ['shellcheck']
+\ }
+
 " ============================================================================
 " Key bindings
 " ============================================================================
-vnoremap <leader>c "*y<CR>
-nnoremap <leader>t :Files<CR>
+nnoremap <silent> <C-l> :nohl<CR><C-l>
+nnoremap <leader>p :Files<CR>
+nnoremap <leader>z :Goyo<CR>
 map <space>n :bn<CR>
 map <space>b :bp<CR>
 map <space>x :bd<CR>
@@ -36,24 +82,6 @@ map <space>q :q<CR>
 
 
 " ============================================================================
-" Pluggins
+" Colors
 " ============================================================================
-call plug#begin('~/.local/share/nvim/plugged')
-
-  " Misc
-  Plug 'junegunn/seoul256.vim'
-  Plug 'junegunn/goyo.vim'
-  Plug 'junegunn/fzf.vim'
-
-  " Editor
-  Plug 'tpope/vim-surround'
-  Plug 'tpope/vim-repeat'
-  Plug 'tpope/vim-commentary'
-
-  " Syntax
-  Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim'
-
-call plug#end()
-
-
-colorscheme seoul256
+colorscheme tomorrow-night-eighties
