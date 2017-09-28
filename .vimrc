@@ -43,6 +43,7 @@ call plug#begin('~/.local/share/nvim/plugged')
   " Misc
   Plug 'junegunn/seoul256.vim'
   Plug 'junegunn/goyo.vim'
+  Plug 'junegunn/fzf.vim'
 
   " Editor
   Plug 'tpope/vim-surround'
@@ -50,8 +51,7 @@ call plug#begin('~/.local/share/nvim/plugged')
   Plug 'tpope/vim-commentary'
 
   " Syntax
-  Plug 'honza/dockerfile.vim'
-  Plug 'junegunn/fzf', { 'dir': '~/.fzf' }
+  Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim'
 
 call plug#end()
 
