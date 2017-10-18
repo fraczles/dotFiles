@@ -22,6 +22,11 @@ set showcmd
 set termguicolors
 set relativenumber
 set number
+set colorcolumn=80
+set autoindent
+"set smartindent
+"set cindent
+"set formatoptions=qrn1
 
 
 " ============================================================================
@@ -29,17 +34,25 @@ set number
 " ============================================================================
 call plug#begin('~/.local/share/nvim/plugged')
 
+  " Autocomplete
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+  Plug 'zchee/deoplete-jedi'
+
   " Misc
   Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim'
+  Plug 'fisadev/vim-isort'
   Plug 'junegunn/goyo.vim'
-  Plug 'junegunn/vim-emoji'
   Plug 'vim-airline/vim-airline'
   Plug 'vim-airline/vim-airline-themes'
 
   " Editor
+  Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
   Plug 'tpope/vim-commentary'
   Plug 'tpope/vim-repeat'
   Plug 'tpope/vim-surround'
+  Plug 'tpope/vim-fugitive'
+  Plug 'scrooloose/nerdtree'
+  Plug 'godlygeek/tabular'
 
   " Syntax
   Plug 'ekalinin/Dockerfile.vim'
@@ -67,21 +80,51 @@ let g:ale_linters = {
   \ 'python': ['flake8'],
   \ 'sh': ['shellcheck']
 \ }
+"
+" Deoplete
+let g:deoplete#enable_at_startup = 1
+let g:deoplete#enable_smart_case = 1
+let g:deoplete#max_list = 20
+let g:deoplete#auto_complete_start_length = 1
+let g:deoplete#sources#jedi#enable_cache = 1
+
+autocmd CompleteDone * silent! pclose!
+
 
 " ============================================================================
 " Key bindings
 " ============================================================================
-nnoremap <silent> <C-l> :nohl<CR><C-l>
+" NerdTree
+nnoremap <leader><Tab> :NERDTreeToggle<CR>
+" Fzf
 nnoremap <leader>p :Files<CR>
+nnoremap <leader>a :Ag<CR>
+nnoremap <leader>s :Colors<CR>
+" Misc
+nnoremap <silent> <C-l> :nohl<CR><C-l>
+vnoremap <leader>c "*y<CR>
 nnoremap <leader>z :Goyo<CR>
 map <space>n :bn<CR>
 map <space>b :bp<CR>
 map <space>x :bd<CR>
 map <space>w :w<CR>
 map <space>q :q<CR>
+" vim-fugitive
+nnoremap <leader>gd :Gdiff<CR>
+nnoremap <leader>gs :Gstatus<CR>
+" Python stuff
+nnoremap <leader>i :Isort<CR>
+" Tabular
+nnoremap <Leader>t= :Tabularize /=<CR>
+nnoremap <Leader>t= :Tabularize /=<CR>
+nnoremap <Leader>t: :Tabularize /:\zs<CR>
+nnoremap <Leader>t: :Tabularize /:\zs<CR>
 
 
 " ============================================================================
 " Colors
 " ============================================================================
 colorscheme tomorrow-night-eighties
+
+
+filetype plugin indent on
