@@ -24,9 +24,9 @@ set relativenumber
 set number
 set colorcolumn=80
 set autoindent
-"set smartindent
-"set cindent
-"set formatoptions=qrn1
+set smartindent
+set cindent
+set formatoptions=qrn1
 
 
 " ============================================================================
@@ -53,6 +53,7 @@ call plug#begin('~/.local/share/nvim/plugged')
   Plug 'tpope/vim-fugitive'
   Plug 'scrooloose/nerdtree'
   Plug 'godlygeek/tabular'
+  Plug 'tell-k/vim-autopep8'
 
   " Syntax
   Plug 'ekalinin/Dockerfile.vim'
@@ -64,6 +65,9 @@ call plug#end()
 " ============================================================================
 " Plugin settings
 " ============================================================================
+" autopep8
+autocmd FileType python set equalprg=autopep8\ -
+
 " Airline
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts = 1
