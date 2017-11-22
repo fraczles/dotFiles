@@ -1,11 +1,13 @@
+" ============================================================================
+" Basic settings
+" ============================================================================
 set t_Co=256
 autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
-set tabstop=4
-set shiftwidth=2
-set softtabstop=2
-set expandtab
-set gdefault
-set mouse=c
+set tabstop=4                     " How many columns in a tab
+set shiftwidth=2                  " How many columns in a >> or << operation
+set softtabstop=2                 " How many columns vim uses when <Tab> is pressed in insert mode
+set expandtab                     " Tabs are spaces
+set gdefault                      " Searches and replaces are global by default
 set encoding=utf-8
 set backspace=indent,eol,start
 set ignorecase
@@ -14,266 +16,119 @@ set hlsearch
 set showmatch
 set cursorline
 set ruler
-set formatoptions=qrn1
 set scrolloff=3
 set showmode
 set showcmd
-set wildmode=list:longest
-"set guifont=Consolas\ 20
 set termguicolors
-set laststatus=2
-set statusline=%<\ %n:%f\ %m%r%y%=%-35.(line:\ %l\ of\ %L,\ col:\ %c%V\ (%P)%)
-set foldmethod=indent
-set foldlevelstart=99
 set relativenumber
 set number
-
-" fzf
-set rtp+=~/.fzf
-
-
-
-" default colors
-syntax on
-filetype on
-au BufNewFile,BufRead Dockerfile      set filetype=sh
-
-" NEOBUNDLE STUFF
-if has('vim_starting')
-  set nocompatible
-  set runtimepath+=~/.vim/bundle/neobundle.vim/
-endif
-
-" <Ctrl-l> redraws the screen and removes any search highlighting.
-nnoremap <silent> <C-l> :nohl<CR><C-l>
-
-call neobundle#begin(expand('~/.vim/bundle/'))
-  NeoBundleFetch 'Shougo/neobundle.vim'
+set colorcolumn=80
+set autoindent
+set smarttab
+set smartindent
+set formatoptions=qrn1
 
 
-  NeoBundle 'fisadev/vim-isort'
+" ============================================================================
+" Pluggins
+" ============================================================================
+call plug#begin('~/.local/share/nvim/plugged')
 
-  NeoBundle 'easymotion/vim-easymotion'
-  NeoBundle 'mkarmona/colorsbox'
-  NeoBundle 'vim-airline/vim-airline'
-  NeoBundle 'vim-airline/vim-airline-themes'
-  NeoBundle 'kien/ctrlp.vim'
-  NeoBundle 'sjl/gundo.vim'
-  NeoBundle 'sudo.vim'
-  NeoBundle 'tpope/vim-fugitive'
-  NeoBundle 'tpope/vim-surround'
-  NeoBundle 'tpope/vim-unimpaired'
-  NeoBundle 'haya14busa/incsearch.vim'
-  " NeoBundle 'jeetsukumaran/vim-buffergator'
+  " Autocomplete
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+  Plug 'zchee/deoplete-jedi'
 
-  " Language / Framework bundles
-  NeoBundle 'gregsexton/MatchTag'
-  NeoBundle 'python-rope/ropevim'
-  NeoBundle 'tpope/vim-markdown'
-  NeoBundle 'kchmck/vim-coffee-script'
-  NeoBundle 'pangloss/vim-javascript'
-  let ropevim_vim_completion=1
-  let ropevim_extended_complete=1
-  " NeoBundle 'nsf/gocode', {'rtp': 'vim/'}
-  NeoBundle 'fatih/vim-go'
-  " NeoBundle 'Blackrush/vim-gocode'
-  NeoBundle 'tpope/vim-rails'
-  NeoBundle 'wilsaj/chuck.vim'
-  NeoBundle 'Matt-Deacalion/vim-systemd-syntax'
-  NeoBundle 'tmhedberg/matchit'
-  NeoBundle 'rust-lang/rust.vim'
-  NeoBundle 'sophacles/vim-processing'
-  NeoBundle 'isRuslan/vim-es6'
-  NeoBundle 'ElmCast/elm-vim'
-  " NeoBundle 'andviro/flake8-vim'
-  NeoBundle 'junegunn/fzf.vim'
-  NeoBundle 'bronson/vim-trailing-whitespace'
+  " Misc
+  Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim'
+  Plug 'fisadev/vim-isort'
+  Plug 'junegunn/goyo.vim'
+  Plug 'vim-airline/vim-airline'
+  Plug 'vim-airline/vim-airline-themes'
 
-  NeoBundle 'junegunn/seoul256.vim'
-  NeoBundle 'w0rp/ale'
-  " Vim Ale
-  let g:ale_statusline_format = ['⨉ %d', '⚠ %d', '⬥ ok']
-  let g:ale_sign_error = '⨉'
-  let g:ale_sign_warning = '⚠'
-  let g:ale_echo_msg_format = '%linter% ❯ %s'
-  let g:ale_linters = {
-    \ 'javascript': ['eslint', 'jshint', 'flow'],
-    \ 'json': ['jsonlint'],
-    \ 'python': ['flake8'],
-    \ 'sh': ['shellcheck']
-  \ }
+  " Editor
+  Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
+  Plug 'tpope/vim-commentary'
+  Plug 'tpope/vim-repeat'
+  Plug 'tpope/vim-surround'
+  Plug 'tpope/vim-fugitive'
+  Plug 'scrooloose/nerdtree'
+  Plug 'godlygeek/tabular'
+  Plug 'tell-k/vim-autopep8'
 
-  " Remember to install flake8:
-  "   python2 -m pip install flake8 && python3 -m pip install flake8
-  let g:ale_python_flake8_executable = 'python3'
-  let g:ale_python_flake8_args = '-m flake8'
+  " Syntax
+  Plug 'ekalinin/Dockerfile.vim'
+  Plug 'pangloss/vim-javascript'
+  Plug 'w0rp/ale'
 
-  let g:flake8_show_in_gutter=0
+call plug#end()
 
-  " vim-gitgutter
-  NeoBundle 'airblade/vim-gitgutter'
+" ============================================================================
+" Plugin settings
+" ============================================================================
+" autopep8
+autocmd FileType python set equalprg=autopep8\ -
 
-  " limelight
-  NeoBundle 'junegunn/limelight.vim'
+" Airline
+let g:airline#extensions#tabline#enabled = 1
+let g:airline_powerline_fonts = 1
+let g:airline_theme='bubblegum'
 
-  " completion stuff
-  NeoBundle 'Shougo/deoplete.nvim'
-  NeoBundle 'zchee/deoplete-jedi'
-  NeoBundle 'Shougo/neocomplete.vim'
-
-  " Goyo & Zenroom
-  NeoBundle 'amix/vim-zenroom2'
-  NeoBundle 'junegunn/goyo.vim'
-  let g:goyo_width=100
-  let g:goyo_margin_top=4
-  let g:goyo_margin_bottom=4
-  let g:goyo_linenr=1
-
-  " Nerdtree
-  NeoBundle 'scrooloose/nerdtree'
-  let NERDTreeShowBookmarks=1
-  let NERDTreeChDirMode=0
-  let NERDTreeMouseMode=2
-  let NERDTreeShowHidden=1
-  let NERDTreeKeepTreeInNewTab=1
-  let g:nerdtree_tabs_open_on_gui_startup=0
-  autocmd VimEnter * wincmd l
-
-  NeoBundle 'chriskempson/vim-tomorrow-theme'
-  " NeoBundle 'morhetz/gruvbox'
-
-
-  " Unite
-  NeoBundle 'mileszs/ack.vim'
-  NeoBundle 'thinca/vim-unite-history'
-  NeoBundle 'Shougo/neomru.vim'
-  NeoBundle 'Shougo/unite.vim'
-  NeoBundle 'Shougo/unite-help'
-  NeoBundle 'Shougo/unite-outline'
-  NeoBundle 'Shougo/unite-session'
-  NeoBundle 'Shougo/vimproc', { 'build': {
-  \  'windows': 'make -f make_mingw32.mak',
-  \  'cygwin': 'make -f make_cygwin.mak',
-  \  'mac': 'make -f make_mac.mak',
-  \  'unix': 'make -f make_unix.mak',
-  \} }
-  let g:unite_source_history_yank_enable = 1
-  let g:unite_source_grep_default_opts = '-irnHl --exclude-dir "\.git" --exclude-dir "vendor" --exclude-dir "tmp"'
-call neobundle#end()
-
-NeoBundleCheck
-
-colorscheme tomorrow-night-eighties
-"colorscheme tomorrow-night
-"    hi htmlArg gui=italic
-"    hi Comment gui=italic
-"    hi Type    gui=italic
-"    hi htmlArg cterm=italic
-"    hi Comment cterm=italic
-"    hi Type    cterm=italic
-
-" key bindings
-vnoremap <leader>c "*y<CR>
-nnoremap <leader>t :Files<CR>
-nnoremap <Leader>s :/\<<C-r><C-w>\>/<CR>
-vnoremap <Leader>\\ :nohlsearch<CR>
-map <space>n :bn<CR>
-map <space>b :bp<CR>
-map <space>x :bd<CR>
-map <space>o :tabe<space>
-map <space>w :w<CR>
-map <space>q :q<CR>
-
-" ale
+" Ale
+let g:ale_statusline_format = ['⨉ %d', '⚠ %d', '⬥ ok']
+let g:ale_sign_error = '⨉'
+let g:ale_sign_warning = '⚠'
+let g:ale_echo_msg_format = '%linter% ❯ %s'
 let g:ale_linters = {
   \ 'javascript': ['eslint', 'jshint', 'flow'],
   \ 'json': ['jsonlint'],
   \ 'python': ['flake8'],
   \ 'sh': ['shellcheck']
 \ }
-
-" term
-map <c-w>d :bp<bar>sp<bar>bn<bar>bd<CR>
-map <c-w>s :sp<CR>
-map <c-w>v :vs<CR>
-map <c-w>t :term /usr/bin/env bash -l<CR>
-
-" search
-map /  <Plug>(incsearch-forward)
-map ?  <Plug>(incsearch-backward)
-map g/ <Plug>(incsearch-stay)
-
-" basic plugins
-nnoremap <silent> <leader>z :Goyo<cr>
-nnoremap <Leader><tab> :NERDTreeToggle<CR>
-nmap <Leader>G :GitGutterLineHighlightsToggle<CR>
-
-nnoremap <leader>l :Limelight!!<CR>
-let g:limelight_conceal_ctermfg = 'gray'
-let g:limelight_conceal_guifg = 'DarkGray'
-let g:limelight_default_coefficient = 0.7
-let g:limelight_paragraph_span = 1
-let g:limelight_priority = -1
-
-" python: iSort
-nnoremap <Leader>i :Isort<CR>
-" unite
-call unite#filters#matcher_default#use(['matcher_fuzzy'])
-call unite#custom#source('file_rec,file_rec/async,file_mru,file,buffer,grep', 'ignore_globs', split(&wildignore, ','))
-nnoremap <leader>g :<C-u>Unite -auto-preview -default-action=tabopen               grep:.<CR>
-nnoremap <leader>o :<C-u>Unite -no-split -buffer-name=outline -default-action=open outline<CR>
-nnoremap <leader>f :<C-u>Unite -no-split -buffer-name=mru -default-action=vsplit   file_mru<CR>
-nnoremap <leader>y :<C-u>Unite -buffer-name=yank -default-action=vsplit            history/yank<CR>
-
-" neocomplete
-let g:neocomplete#enable_at_startup = 1
-" <TAB>: completion.
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-" <C-h>, <BS>: close popup and delete backword char.
-inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
-inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
-
-" python
-let s:python = system("which python")
-if !empty(s:python)
-  map <Leader>j :%!python -m json.tool<CR>
-endif
-
-
-" The Silver Searcher
-if executable('ag')
-  " Use ag over grep
-  set grepprg=ag\ --nogroup\ --nocolor
-
-  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-
-  " ag is fast enough that CtrlP doesn't need to cache
-  let g:ctrlp_use_caching = 0
-endif
-
-" processing-lang
-let s:processing = system("which processing-java")
-if !empty(s:processing)
-  nnoremap <Leader>p
-  \ :!rm -rf /tmp/processing/*
-  \ &&
-  \ processing-java --output=/tmp/processing --sketch=%:p:h
-  \ --force
-  \ --run<CR>
-endif
-
-" vim airline
-let g:airline#extensions#tabline#enabled = 1
-let g:airline_powerline_fonts = 1
-
-" autocomplete
+"
+" Deoplete
 let g:deoplete#enable_at_startup = 1
-let g:deoplete#sources#jedi#show_docstring = 1
+let g:deoplete#enable_smart_case = 1
+let g:deoplete#max_list = 20
+let g:deoplete#auto_complete_start_length = 1
+let g:deoplete#sources#jedi#enable_cache = 1
+
+autocmd CompleteDone * silent! pclose!
 
 
-augroup crontab_settings
-  autocmd!
-  autocmd FileType crontab setlocal backupcopy=yes
-augroup END
+" ============================================================================
+" Key bindings
+" ============================================================================
+" NerdTree
+nnoremap <leader><Tab> :NERDTreeToggle<CR>
+" Fzf
+nnoremap <leader>p :Files<CR>
+nnoremap <leader>a :Ag<CR>
+nnoremap <leader>s :Colors<CR>
+" Misc
+nnoremap <silent> <C-l> :nohl<CR><C-l>
+vnoremap <leader>c "*y<CR>
+nnoremap <leader>z :Goyo<CR>
+map <space>n :bn<CR>
+map <space>b :bp<CR>
+map <space>x :bd<CR>
+map <space>w :w<CR>
+map <space>q :q<CR>
+" vim-fugitive
+nnoremap <leader>gd :Gdiff<CR>
+nnoremap <leader>gs :Gstatus<CR>
+" Python stuff
+nnoremap <leader>i :Isort<CR>
+" Tabular
+nnoremap <Leader>t= :Tabularize /=<CR>
+nnoremap <Leader>t= :Tabularize /=<CR>
+nnoremap <Leader>t: :Tabularize /:\zs<CR>
+nnoremap <Leader>t: :Tabularize /:\zs<CR>
 
+
+" ============================================================================
+" Global stuff
+" ============================================================================
+colorscheme tomorrow-night-eighties
+filetype plugin indent on
+" Trim EOL whitespace for python files
+autocmd BufWritePre *.py normal m`:%s/\s\+$//e
