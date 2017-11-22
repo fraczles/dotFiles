@@ -24,8 +24,8 @@ set relativenumber
 set number
 set colorcolumn=80
 set autoindent
+set smarttab
 set smartindent
-set cindent
 set formatoptions=qrn1
 
 
@@ -126,9 +126,9 @@ nnoremap <Leader>t: :Tabularize /:\zs<CR>
 
 
 " ============================================================================
-" Colors
+" Global stuff
 " ============================================================================
 colorscheme tomorrow-night-eighties
-
-
 filetype plugin indent on
+" Trim EOL whitespace for python files
+autocmd BufWritePre *.py normal m`:%s/\s\+$//e
